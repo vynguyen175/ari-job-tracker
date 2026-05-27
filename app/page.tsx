@@ -3,11 +3,12 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import { useAuth } from "@/components/providers"
 import { useToast } from "@/hooks/use-toast"
-import { Briefcase, Plus, Search, TrendingUp, Send, Phone, Award, X, Zap } from "lucide-react"
+import { Briefcase, Plus, Search, TrendingUp, Send, Phone, Award, X, Zap, ClipboardPaste } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { KanbanBoard } from "../components/kanban-board"
 import { ApplicationModal } from "../components/application-modal"
+import { PasteModal } from "../components/paste-modal"
 import { JOB_STATUSES, STATUS_DOT_COLORS, STATUS_LABELS } from "../types"
 import type { JobApplication, JobStatus } from "../types"
 
@@ -22,6 +23,7 @@ export default function JobTrackerPage() {
   const [editingApp, setEditingApp] = useState<JobApplication | null>(null)
   const [defaultStatus, setDefaultStatus] = useState<JobStatus>('saved')
   const [searchQuery, setSearchQuery] = useState('')
+  const [pasteModalOpen, setPasteModalOpen] = useState(false)
 
   const fetchApplications = useCallback(async () => {
     try {
@@ -198,9 +200,12 @@ export default function JobTrackerPage() {
         <div className="flex gap-2 shrink-0">
           {applications.length === 0 && (
             <Button variant="outline" onClick={handleLoadDemoData}>
-              <Zap className="w-4 h-4 mr-1" /> Load Demo Data
+              <Zap className="w-4 h-4 mr-1" /> Demo Data
             </Button>
           )}
+          <Button variant="outline" onClick={() => setPasteModalOpen(true)}>
+            <ClipboardPaste className="w-4 h-4 mr-1" /> Paste JD
+          </Button>
           <Button onClick={() => handleAddClick('saved')}>
             <Plus className="w-4 h-4 mr-1" /> Add
           </Button>
@@ -280,6 +285,16 @@ export default function JobTrackerPage() {
         onDelete={handleDelete}
         application={editingApp}
         defaultStatus={defaultStatus}
+      />
+
+      <PasteModal
+        open={pasteModalOpen}
+        onClose={() => setPasteModalOpen(false)}
+        onParsed={(data) => {
+          setPasteModalOpen(false)
+          setEditingApp(data as JobApplication)
+          setModalOpen(true)
+        }}
       />
     </div>
   )
