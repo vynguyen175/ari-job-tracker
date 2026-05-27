@@ -1,0 +1,24 @@
+{
+  "id": "job-tracker",
+  "name": "Job Tracker",
+  "description": "Track software dev job applications through your hiring pipeline",
+  "version": "1.0.0",
+  "author": "Vy Nguyen",
+  "icon": "Briefcase",
+  "enabled": true,
+  "fullscreen": false,
+  "menuPriority": 10,
+  "permissions": { "database": true, "api": true, "dashboard": true },
+  "routes": [
+    {
+      "path": "/job-tracker",
+      "label": "Job Tracker",
+      "icon": "Briefcase",
+      "sidebarPosition": "main"
+    }
+  ],
+  "database": { "tables": ["job_applications"] },
+  "dashboard": {
+    "widgetComponents": ["./components/widget.tsx"]
+  }
+}
