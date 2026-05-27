@@ -29,7 +29,7 @@ function KanbanColumn({ status, applications, onCardClick, onAddClick }: KanbanC
   const { setNodeRef, isOver } = useDroppable({ id: status })
 
   return (
-    <div className="flex flex-col min-w-[260px] w-[260px]">
+    <div className="flex flex-col flex-1 min-w-0">
       <div className={`rounded-t-lg px-3 py-2 border ${STATUS_HEADER_COLORS[status]}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export function KanbanBoard({ applications, onStatusChange, onCardClick, onAddCl
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto pb-4 h-full">
+      <div className="flex gap-2 pb-4 h-full min-w-0 w-full">
         {JOB_STATUSES.map((status) => (
           <KanbanColumn
             key={status}
